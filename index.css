@@ -1,0 +1,37 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+  }
+  
+  .container {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .block {
+    flex: 1;
+    height: 300px; /* Adjust the height as needed */
+    padding: 20px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+  }
+  
+  .left-block {
+    background-color: #f2f2f2;
+    border-right: none;
+    text-align: center;
+    line-height: 300px;
+  }
+  
+  .middle-block {
+    background-color: #e0e0e0;
+    border-left: none;
+    border-right: none;
+  }
+  
+  .right-block {
+    background-color: #beb5b5;
+    border-left: none;
+    padding: 20px;
+  }

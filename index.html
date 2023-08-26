@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="index.css">
+  <title>IPFS Image Upload</title>
+</head>
+<body>
+  <h1>IPFS Image Upload</h1>
+
+  <input type="file" id="imageInput">
+  <div id="imagePreview"></div>
+
+  <button id="generateButton">Generate IPFS Link</button>
+  <input type="text" id="linkTextBox" readonly>
+
+  <script>
+    async function uploadToIpfs(imageData) {
+        const apiKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6IjYxZmJmMTY2LTU3Y2YtNGE3Zi05YThjLTUyZTMyZmMyYzk4NCIsIm9yZ0lkIjoiMzU0NzExIiwidXNlcklkIjoiMzY0NTc1IiwidHlwZUlkIjoiNTUxMmZjMjItMzJlOS00NTg0LWEzNGYtZDcyMGY5ZmYyZGE1IiwidHlwZSI6IlBST0pFQ1QiLCJpYXQiOjE2OTMwNjkyNTksImV4cCI6NDg0ODgyOTI1OX0.Ll2YIv2aLX5JhrhrmPDBIdCuvksP64ChlB6KLJo9QLg"; // Replace with your NFT.Storage API key
+      
+      const formData = new FormData();
+      formData.append("file", imageData);
+
+      const response = await fetch("https://api.nft.storage/upload", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${apiKey}`
+        },
+        body: formData
+      });
+
+      const result = await response.json();
+      if (result.data && result.data.cid) {
+        navigator.clipboard.writeText(ipfsUrl)
+  .then(() => {
+    console.log('IPFS link copied to clipboard:', ipfsUrl);
+  })
+  .catch(error => {
+    console.error('Error copying to clipboard:', error);
+  });
+
+    return result.data.cid;
+  } else {
+    throw new Error("Unable to retrieve IPFS CID from response.");
+  }
+    }
+
+    document.getElementById('generateButton').addEventListener('click', async () => {
+  const imageData = document.getElementById('imageInput').files[0];
+
+  if (imageData) {
+    const formData = new FormData();
+    formData.append('file', imageData);
+
+    try {
+      const response = await fetch('http://localhost:3000/upload', {
+        method: 'POST',
+        body: formData,
+      });
+      var i=1;
+      const data = await response.json();
+      console.log('Response:', data);
+      if (data.fileName) {
+        const ipfsUrl = `https://ipfs.io/ipfs/${data.fileName}`;
+        while(i>0)
+        {
+          console.log(ipfsUrl);
+          
+        }
+        document.getElementById('linkTextBox').value = ipfsUrl;
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+});
+
+
+     
+  </script>
+</body>
+</html>
